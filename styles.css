@@ -307,6 +307,35 @@ input {
   border-color: color-mix(in oklab, var(--accent) 45%, var(--line));
 }
 
+.scroll-to-top {
+  position: fixed;
+  right: max(1.25rem, env(safe-area-inset-right));
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  padding: 0;
+  border: 1px solid color-mix(in oklab, var(--accent) 65%, var(--line));
+  border-radius: 50%;
+  background: linear-gradient(145deg, var(--accent), color-mix(in oklab, var(--accent) 65%, var(--accent-strong)));
+  color: var(--bg);
+  box-shadow: 0 12px 32px color-mix(in oklab, var(--accent) 25%, transparent);
+  cursor: pointer;
+  transition: transform 180ms var(--ease), box-shadow 180ms var(--ease);
+}
+
+.scroll-to-top:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px color-mix(in oklab, var(--accent) 35%, transparent);
+}
+
+.scroll-to-top svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
 .section {
   padding: 3rem 0 0;
   scroll-margin-top: var(--anchor-offset);
@@ -1266,6 +1295,13 @@ input {
     --anchor-offset: 8rem;
   }
 
+  .scroll-to-top {
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    width: 3rem;
+    height: 3rem;
+  }
+
   .page-shell {
     width: min(calc(100vw - 2.5rem), 100%);
     padding-bottom: 4rem;
@@ -1465,6 +1501,7 @@ input {
 
   .topbar,
   .command-palette,
+  .scroll-to-top,
   .theme-toggle,
   .command-trigger,
   .skip-link,

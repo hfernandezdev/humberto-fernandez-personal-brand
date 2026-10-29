@@ -242,6 +242,16 @@ const heroSnapshotMetrics = heroSnapshot.metrics
   )
   .join('');
 
+function ScrollToTopButton() {
+  return `
+    <button class="scroll-to-top" type="button" data-scroll-to-top aria-label="Volver al inicio" title="Volver al inicio" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M12 4 4.5 11.5l1.41 1.41L11 7.83V20h2V7.83l5.09 5.08 1.41-1.41L12 4Z"/>
+      </svg>
+    </button>
+  `;
+}
+
 const appMarkup = `
   <div class="page-shell">
     <header class="topbar">
@@ -457,6 +467,8 @@ const appMarkup = `
     </main>
   </div>
 
+  ${ScrollToTopButton()}
+
   <div class="command-palette" data-command-palette hidden>
     <div class="command-backdrop" data-close-command></div>
     <div class="command-panel" role="dialog" aria-modal="true" aria-labelledby="command-title">
@@ -484,6 +496,7 @@ const paletteSearch = document.querySelector('#command-search');
 const paletteList = document.querySelector('.command-list');
 const mobileNavToggle = document.querySelector('[data-mobile-nav-toggle]');
 const navDrawer = document.querySelector('[data-nav-drawer]');
+const scrollToTopButton = document.querySelector('[data-scroll-to-top]');
 const openPaletteButtons = document.querySelectorAll('[data-open-command]');
 const closePaletteButtons = document.querySelectorAll('[data-close-command]');
 
@@ -509,6 +522,20 @@ const cycleTheme = () => {
 applyTheme(getStoredTheme());
 
 themeToggle?.addEventListener('click', cycleTheme);
+
+const scrollToTopThreshold = 400;
+
+const updateScrollToTopButton = () => {
+  scrollToTopButton.hidden = window.scrollY <= scrollToTopThreshold;
+};
+
+window.addEventListener('scroll', updateScrollToTopButton, { passive: true });
+updateScrollToTopButton();
+
+scrollToTopButton.addEventListener('click', () => {
+  const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  window.scrollTo({ top: 0, behavior });
+});
 
 const scrollToSection = (target) => {
   const section = document.getElementById(target);
